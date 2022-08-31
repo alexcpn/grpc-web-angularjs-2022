@@ -1,27 +1,146 @@
-# TestProj
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+## Step 1: Create a new project
 
-## Development server
+```
+ng new test-proj
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Step 2: Generate a Component
 
-## Code scaffolding
+Component in Angular is what has the HTML
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+ng generate component  search 
+```
 
-## Build
+This creates a component under `test-proj/src/app/search`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Let remove the default contents in `test-proj/src/app/app.component.html` select all and delete all contents
 
-## Running unit tests
+and add the components data  by adding the following tag in above file
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
+<app-search></app-search>
+```
 
-## Running end-to-end tests
+Now the main page will reflect the html in the component `test-proj/src/app/search/search.component.html`
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
+## Step 3: Create a Service
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+```
+ng generate service search
+```
+This creates the following service files  `src/app/search.service.ts` and a .spec for testing
+
+The Service class will provide the data and functions needed for the components
+
+## Step 4: Inject the service to the Component via Dependency Injection
+
+Basically add to Provider in `test-proj/src/app/app.module.ts`
+
+```
+  providers: [
+    SearchService
+  ],
+  ```
+
+  And add this to the Ctor of the component `test-proj/src/app/search/search.component.ts`
+
+  ```
+  export class SearchComponent implements OnInit {
+
+  service;
+  constructor(service:SearchService) {
+    this.service = service
+   }
+
+```
+Okay we have wired the component and the service; Next we will add some html to the component
+
+Let's start compiling and auto-compile with ng-serve
+
+```
+ng serve
+```
+You should be able to see the client in localhost:4200 or some other port
+
+
+## Step 5: Add a method to Service  and call it from Component
+
+Let's add a method call `getCourses` to service file `test-proj/src/app/search.service.ts`
+
+```
+export class SearchService {
+
+  constructor() { }
+
+  getCourseList(){
+    return ["Course 1","Course 2"]
+  }
+}
+```
+In the component add a method for button click
+
+```
+export class SearchComponent implements OnInit {
+
+  service;
+  courses; //Added
+  constructor(service:SearchService) {
+    this.service = service
+    this.courses = [""]
+   }
+
+  onClick(){ //added
+    this.courses =this.service.getCourseList()
+  }
+  ngOnInit(): void {
+  }
+
+}
+```
+And let's add some HTML to the component to call this method
+
+```
+<p>Test Component works!</p>
+<button (click)="onClick()"> Call Service</button>
+<h3>List of Courses</h3>
+<li *ngFor="let course of courses">
+    {{course}}    
+</li>
+```
+
+You should be able to see the following on screen on button-click
+
+So far is simple Angular related parts;
+
+Now we will add GRPC-Web to the Client part; 
+
+For that we need to do the following; Copy the Protos of the service we need to call here in another folder
+
+We are adding it here `test-proj/src/app/search/interfaces/microservice1/test.proto`
+
+Then we need to add the `compile` directive for `protoc` and `protoc-gen-ts` to generate the necessary client files in the `package.json` file
+
+```
+"compile": "./node_modules/protoc/protoc/bin/protoc  --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --js_out=import_style=commonjs,binary:src/app/search/proto  --grpc-web_out=import_style=typescript,mode=grpcweb:src/app/search/proto -I ./src/app/search/interfaces/ ./src/app/search/interfaces/**/*.proto",
+ ```
+
+Pre-requisite : you need to install these plug-ins as pre-requisite
+
+```
+npm install google-protobuf protoc ts-protoc-gen
+npm i --save-dev @types/google-protobuf
+npm install grpc-web
+```
+
+Compile with npm
+
+```
+test-proj$ npm run compile
+```
+
+After that we use the generated client files as shown  in our service - `test-proj/src/app/search.service.ts`
+
