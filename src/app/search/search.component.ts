@@ -17,8 +17,8 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  onClick(){
-    this.courses =this.service.getCourseList()
+  async onClick(){
+    this.courses =await this.service.getDatafromGRPCServer()
 
   }
 
