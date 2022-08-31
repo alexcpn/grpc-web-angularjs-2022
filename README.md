@@ -144,3 +144,5 @@ test-proj$ npm run compile
 
 After that we use the generated client files as shown  in our service - `test-proj/src/app/search.service.ts`
 
+You can see just changes of the added code here https://github.com/alexcpn/grpc-web-angularjs-2022/pull/1/files without the generated code.
+
