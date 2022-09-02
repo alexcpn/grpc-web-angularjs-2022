@@ -39,8 +39,17 @@ export class SearchService {
       console.log("Error from GRPC Server--->",(error as grpcWeb.RpcError).message)
       return []
     }
-   
 
+    /* Option 1.A - Calling without await - this may get called when the server calls back
+      let result = this.searchService.search(searchRequest,{})
+       result.then(response => {
+             this.responseData.data =response.getSearchResponse()
+       }).catch(error  =>{
+         console.log("Got error from server: grpcWeb.RpcError).message-->",(error as grpcWeb.RpcError).message)
+         this.responseData.error  =(error as grpcWeb.RpcError)
+       })
+   */
+    
     //Option 2 - Calling with the callback
     /*
     const call = client.search(searchRequest,{deadline:dl_str}, (err: grpcWeb.RpcError,response: SearchResponse) =>{
