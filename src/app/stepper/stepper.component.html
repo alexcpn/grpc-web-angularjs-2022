@@ -1,0 +1,64 @@
+<br>
+<h2>Application Details</h2>
+<mat-horizontal-stepper #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Company Name</ng-template>
+        <mat-form-field>
+          <input matInput placeholder="Company Name" formControlName="companyName" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Email Id</ng-template>
+          <mat-form-field>
+            <input matInput placeholder="Email Id" formControlName="emailId" required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Application Name</ng-template>
+        <mat-form-field>
+          <input matInput placeholder="Application Name" formControlName="applicationName" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+          <ng-template matStepLabel>Add Application Description</ng-template>
+          <mat-form-field>
+            <input matInput placeholder="Application Description" formControlName="applicationDescription" required>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+    <mat-step [completed]="completed" [state]="state">
+      <ng-template matStepLabel>Submit</ng-template>
+      Application Submitted
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="done()">Submit</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+  
+  <mat-divider></mat-divider>
+
+  <p>Response from Server</p>
+  <p>{{response}}</p>
