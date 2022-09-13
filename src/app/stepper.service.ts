@@ -12,7 +12,9 @@ export class StepperService {
 
   async submitToAppService(request:AppOnboardingRequest):Promise<AppOnboardingResponse>{
 
-    var client:AppOnboardingServiceClient = new AppOnboardingServiceClient('http://localhost:8081',null,null)
+    let host ='http://k8s-grpc-apponboa-361a6e7856-1847907397.eu-central-1.elb.amazonaws.com:80'
+    //let host = 'http://localhost:8081'
+    var client:AppOnboardingServiceClient = new AppOnboardingServiceClient(host,null,null)
      
       var dl = new Date();
       dl.setSeconds(dl.getSeconds() + 1);
