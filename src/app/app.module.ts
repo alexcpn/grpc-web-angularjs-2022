@@ -12,6 +12,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav'; 
 import {MatDividerModule} from '@angular/material/divider';
 import { StepperService } from './stepper.service';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { AppRoutingModule } from './app-routing.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +30,9 @@ import { StepperService } from './stepper.service';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSidenavModule,
-    MatDividerModule
+    MatDividerModule,
+    MatToolbarModule,
+    AppRoutingModule
     
   ],
   providers: [
