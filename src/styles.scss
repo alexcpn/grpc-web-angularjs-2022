@@ -1,0 +1,71 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+@mixin widget-theme($theme) {
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+
+    .fa-icon {
+      color: mat-color($primary);
+    }
+
+    .fa-table-data-row-selected {
+        background-color: mat-color($accent) !important;
+        color: #152A23
+    }
+
+    .fa-text-link {
+        color: #2A5D9F;
+    }
+  }
+
+
+
+$custom-primary: mat-palette($mat-light-blue,500);
+$custom-accent:  mat-palette($mat-light-blue, A200);
+$custom-warn:    mat-palette($mat-red);
+$contrast-color:  mat-contrast($custom-accent, 500);
+
+@function _mat-create-dark-color-config($primary, $accent, $warn: null) {
+  @return (
+    primary: $primary,
+    accent: $accent,
+    warn: if($warn != null, $warn, mat-palette($mat-red)),
+    is-dark: true,
+    text: darkblue,
+    secondary-text: blue,
+    background: $mat-dark-theme-background,
+  );
+}
+
+$custom-theme: mat-light-theme($custom-primary, $custom-accent, $custom-warn);
+$custom-theme: map-merge($custom-theme, (foreground: _mat-create-dark-color-config($custom-primary,$custom-accent,$custom-warn)));
+
+
+@include angular-material-theme($custom-theme);
+@include widget-theme($custom-theme);
+
+//Orange theme
+$ora-primary: mat-palette($mat-orange, 800);
+$ora-accent:  mat-palette($mat-deep-purple, A100);
+$ora-theme: mat-light-theme($ora-primary, $ora-accent);
+
+.orange-theme {
+    @include angular-material-theme($ora-theme);
+    @include widget-theme($ora-theme);
+}
+
+//green theme
+$green-primary: mat-palette($mat-green, 800);
+$green-accent:  mat-palette($mat-lime, A700);
+$green-theme: mat-light-theme($green-primary, $green-accent);
+/* General Website Style rules */
+@include all-component-themes($custom-theme);
+
+$background-color: mat-palette($mat-orange, 800);
+body {
+    font-family: "Helvetica", Sans-Serif;
+    background-color: background-color;
+    font-style: normal;
+  }
