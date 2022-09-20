@@ -1,24 +1,29 @@
-
-
-<div class="home-main">
+<div class="home">
+    
     <mat-toolbar>
         <span>Test Angular Application</span>
-    </mat-toolbar>   
+        <mat-nav-list class="list-horizontal">
+            <div class="c">
+                <a mat-list-item [routerLink]="'/Login'"> Login </a>
+            </div>
+        </mat-nav-list>
+    </mat-toolbar>
 
 </div>
 
 <mat-sidenav-container class="example-container">
-    <mat-sidenav mode = "side" opened>
-        <nav>
+    <mat-sidenav mode="side" opened>
+        <mat-nav-list>
             <a mat-list-item [routerLink]="'/Add Application'"> Add Application </a>
             <a mat-list-item [routerLink]="'/Search'"> Search </a>
-        </nav>
-     </mat-sidenav>
+            <a mat-list-item [routerLink]="'/Zen-desk'"> Zen-desk </a>
+        </mat-nav-list>
+    </mat-sidenav>
     <mat-sidenav-content>
-        <nav>
-            <a mat-list-item [routerLink]="'/Add Application'"> Add Application </a>
-            <a mat-list-item [routerLink]="'/Search'"> Search </a>
-        </nav>
-          <router-outlet></router-outlet>
-        </mat-sidenav-content>
+        <div class="main">
+        <span class="item">&nbsp;
+        <router-outlet></router-outlet>
+        </span>
+    </div>
+    </mat-sidenav-content>
 </mat-sidenav-container>

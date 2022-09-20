@@ -1,7 +1,17 @@
-
-mat-sidenav{
+mat-sidenav {
     min-width: 50px !important;
     width: 10vw !important;
     max-width: 800px !important;
-} 
+}
 
+mat-nav-list.list-horizontal {
+    display: flex;
+    flex-direction: row;
+}
+.main {
+    min-height: 80vw;
+    display: inline-block;
+ }
+.c {
+    margin-left: 80vw;
+}

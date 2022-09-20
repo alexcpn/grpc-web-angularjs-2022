@@ -14,12 +14,21 @@ import {MatDividerModule} from '@angular/material/divider';
 import { StepperService } from './stepper.service';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { AppRoutingModule } from './app-routing.module';
+import {MatListModule} from '@angular/material/list';
+import { ZendeskComponent } from './zendesk/zendesk.component';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './services/auth.guard';
+import { HttpClientModule } from '@angular/common/http';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchComponent,
-    StepperComponent
+    StepperComponent,
+    ZendeskComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -32,12 +41,17 @@ import { AppRoutingModule } from './app-routing.module';
     MatSidenavModule,
     MatDividerModule,
     MatToolbarModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatListModule,
+    HttpClientModule,
+    OAuthModule.forRoot()
     
   ],
   providers: [
     SearchService,
-    StepperService
+    StepperService,
+    AuthGuard,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
