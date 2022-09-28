@@ -1,31 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
+
+type UserDetails = {
+  [key: string]: any; // 👈️ variable key
+
+};
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  userProfile;
+  userDetails:UserDetails;
 
   constructor(private authService: AuthService) {
-    this.userProfile = {}
+    this.userDetails = authService.getUserProfile()
    }
 
   ngOnInit(): void {
   }
 
-  login(){
-    this.authService.login()
+  loginWithGoolge(){
+    this.authService.loginWithGoolge()
   }
   
  isLoggedIn(){
    return this.authService.isLoggedIn()
       
   }
-  getUserProfile(){
-  return  this.authService.getUserProfile()
- }
-
+  
 }

@@ -1,7 +1,7 @@
 
 <div *ngIf="isLoggedIn(); else elseBlock">
-    User is logged In 
+    <div id="userdetails"> Logged in as  </div>
   </div>
   <ng-template #elseBlock>
-    <button mat-button (click)="login()">Login With Google</button>
+    <button mat-button (click)="loginWithGoolge()">Login With Google</button>
   </ng-template>

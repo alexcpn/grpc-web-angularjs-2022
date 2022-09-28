@@ -3,29 +3,37 @@ import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 import { filter } from 'rxjs/operators';
 
 
-const oAuthConfig: AuthConfig = {
+const oAuthConfigGoogle: AuthConfig = {
   issuer: 'https://accounts.google.com',
   strictDiscoveryDocumentValidation: false,
   clientId: '613344691107-jc8hd7r8a2ocp5jvdi58l6va9s20b0dd.apps.googleusercontent.com',
   dummyClientSecret: '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',
   scope: "openid profile",
   redirectUri: "http://localhost:4200/Login",
+  userinfoEndpoint: 'https://www.googleapis.com/oauth2/v3/userinfo ',
   responseType: 'code',
   showDebugInformation: true,
   // Activate Session Checks: #TODO
   sessionChecksEnabled: false,
 
 }
+
+type UserDetails = {
+  [key: string]: any; // 👈️ variable key
+
+};
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  userDetails!: UserDetails;
 
   constructor(private readonly oAuthService: OAuthService) {
     this.configure()
   }
   private configure() {
-    this.oAuthService.configure(oAuthConfig);
+    this.oAuthService.configure(oAuthConfigGoogle);
     this.oAuthService.events.pipe(filter(e => e.type === 'session_terminated')).subscribe(e => {
       console.debug('Your session has been terminated!');
     })
@@ -52,7 +60,7 @@ export class AuthService {
   //   return true
   // }
 
-  public async login() {
+  public async loginWithGoolge() {
 
     let ret = await this.oAuthService.loadDiscoveryDocument()
     console.log("loadDiscoveryDocument", ret)
@@ -63,9 +71,13 @@ export class AuthService {
       this.oAuthService.initLoginFlow()
     } else {
       console.log("login::hasValidAccessToken", true)
-      this.oAuthService.setupAutomaticSilentRefresh();
       this.oAuthService.loadUserProfile().then((userProfile) => {
-        console.log(JSON.stringify(userProfile))
+        this.userDetails = userProfile
+        console.log("login",this.userDetails['info']['name'])
+        if (document.getElementById('userdetails') != null) {
+          document.getElementById('userdetails')!.innerHTML += this.userDetails['info']['name'];
+        }
+
       })
     }
   }
@@ -80,13 +92,28 @@ export class AuthService {
     return true
 
   }
-  public async getUserProfile() {
-    if (this.oAuthService.hasValidAccessToken()) {
-      let userProfile = await this.oAuthService.loadUserProfile()
-      console.log(JSON.stringify(userProfile))
-      return userProfile
+  public getUserProfile() {
+    if (!this.oAuthService.hasValidAccessToken()) {
+      console.log("getUserProfile::hasValidAccessToken", false)
+      return this.userDetails
     }
-    return {}
+    console.log("getUserProfile::hasValidAccessToken", true)
+    if (this.userDetails == null) {
+      console.log("User details are null- trying to get")
+      this.oAuthService.loadUserProfile().then(
+        (userProfile) => {
+          this.userDetails = userProfile
+          console.log("getUserProfile:",this.userDetails['info']['name'])
+          if (document.getElementById('userdetails') != null) {
+            document.getElementById('userdetails')!.innerHTML += this.userDetails['info']['name'];
+          }
+        },
+        (reason) => {
+          console.log("getUserProfile:Could not get user details -details", reason)
+        },
+      );
+    }
+    return this.userDetails
   }
 
   public logoff() {
