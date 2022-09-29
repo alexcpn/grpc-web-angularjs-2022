@@ -21,6 +21,7 @@ import { AuthGuard } from './services/auth.guard';
 import { HttpClientModule } from '@angular/common/http';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { LoginComponent } from './login/login.component';
+import { LoginWithAzureComponent } from './login-with-azure/login-with-azure.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { LoginComponent } from './login/login.component';
     SearchComponent,
     StepperComponent,
     ZendeskComponent,
-    LoginComponent
+    LoginComponent,
+    LoginWithAzureComponent
   ],
   imports: [
     BrowserModule,
