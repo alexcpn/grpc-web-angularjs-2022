@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  azureclientid: //"add your Azure client id here" //test3 tenant
+  azuretenantid: 
+  googleclientid: 
+  googleclientsecret: // add what you want here and do NOT CHECK IN This file
 };
 
 /*

@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthConfig } from 'angular-oauth2-oidc';
+import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/auth.service';
-
 
 
 type UserDetails = {
   [key: string]: any; // 👈️ variable key
 
 };
+
 const oAuthConfigAzure: AuthConfig = {
-  //issuer: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize', as https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration
-  issuer:'https://login.microsoftonline.com/5d471751-9675-428d-917b-70f44f9630b0/v2.0',
+  issuer:'https://login.microsoftonline.com/'+environment.azuretenantid +'/v2.0',
   strictDiscoveryDocumentValidation: false,
-  clientId: 'a27870f0-13fa-406e-beb1-7a9ff703a87c',
-  dummyClientSecret: 'dummy',
+  clientId: environment.azureclientid,
+  //dummyClientSecret: 'dummy',
   scope: "openid profile",
   redirectUri: "http://localhost:4200/LoginAzure",
   userinfoEndpoint: 'https://graph.microsoft.com/oidc/userinfo',
